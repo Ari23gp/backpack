@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="chatbox">
+        <div id="chatlogs"></div>
+        <input type="text" id="userInput" placeholder="Escribe un mensaje..." />
+        <button onclick="sendMessage()">Enviar</button>
+    </div>
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <script>
+        const chatbox = document.getElementById('chatbox');
+        const userInput = document.getElementById('userInput');
+
+        function sendMessage() {
+            const userMessage = userInput.value;
+            if (userMessage.trim() === '') return;
+
+            // Agrega el mensaje del usuario al chatlogs
+            appendMessage('user', userMessage);
+
+            // Limpia el cuadro de entrada
+            userInput.value = '';
+
+            // Envia el mensaje al agente de Dialogflow
+            dfMessenger.sendUserMessage(userMessage);
+        }
+
+        function appendMessage(sender, message) {
+            const chatlogs = document.getElementById('chatlogs');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = sender;
+            messageDiv.textContent = message;
+            chatlogs.appendChild(messageDiv);
+        }
+    </script>
+</body>
+</html>
